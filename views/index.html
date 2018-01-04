@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Add new Stock for analyze</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/scripts/style.css">
+    <script src="/js/angular.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <!-- <script src="/controller/common.js"></script> -->
+    <script src="ctrl/stock.js"></script>
+</head>
+
+<body ng-app="santhiTrade">
+    <div ng-controller="stockCtrl">
+        <div class="container">
+            <nav class="navbar navbar-inverse">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>                        
+            </button>
+                    <!-- <a class="navbar-brand" href="#"><img src="/TTL.jpeg" style="height:150%"></a> -->
+                </div>
+                <div class="collapse navbar-collapse" id="myNavbar">
+                    <ul class="nav navbar-nav">
+                        <li class="active"><a href="/welcome">Home</a></li>
+                        <li ng-if="user.role==2"><a href="/admin">Admin</a></li>
+                        <li ng-if="switch=='portfolio'"><a href="#" ng-click="switching('addNew')">Add New</a></li>
+                        <li ng-if="switch=='addNew'"><a href="#" ng-click="switching('portfolio')">Portfolio</a></li>
+                    </ul>
+                    <ul class="nav navbar-nav navbar-right">
+                        <li><a href="#" ng-click="signout()"><span class="glyphicon glyphicon-log-out"></span> Logout</a></li>
+                    </ul>
+                </div>
+
+            </nav>
+        </div>
+
+        <div class="container">
+            <div class="row">
+
+                <div class="col-sm-10" item-height="300px;">
+
+                    <h3> Welcome Santhi ...</h3>
+                </div>
+            </div>
+
+            <div class="col-sm-12" ng-if="switch=='portfolio'">
+                <!-- <h4>Portfolio</h4> -->
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">Portfolio Information</h3>
+                    </div>
+                    <div class="panel-body">
+                        <!-- <form name="config"> -->
+                            <table width="100%">
+                                <tr>
+                                    <td >
+                                        <strong>Stock Id</strong>
+                                    </td>
+                                    <td >
+                                        <strong>Current Price</strong>
+                                    </td>
+                                    <td >
+                                        <strong>Buy / Sell base Value</strong>
+                                    </td>
+                                    <td >
+                                        <strong>Profit / Loss</strong>
+                                    </td>
+                                    <td >
+                                        <strong>Status</strong>
+                                    </td>
+                                </tr>
+                                <tr ng-repeat="stock in portfolioList">
+                                    <td >
+                                        {{stock.stockId}}
+                                    </td>
+                                    <td >
+                                        {{stock.presentValue}}
+                                    </td>
+                                    <td >
+                                        {{stock.baseValue}}
+                                    </td>
+                                    <td >
+                                        {{stock.stopLoss}}
+                                    </td>
+                                    <td >
+                                        {{stock.status}}
+                                    </td>
+                                </tr>
+                            </table>
+                        <!-- </form> -->
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-sm-12" ng-if="switch=='addNew'">
+                <h4> Add new Stock Id</h4>
+                <div class="col-sm-8 col-sm-push-2">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h3 class="panel-title">New Stock Addition</h3>
+                        </div>
+                        <div class="panel-body" >
+                            <form name='newDevice' >
+                            <table class="table table-borderless">
+                                <tr>
+                                    <td>Stock name / Stock Id</td>
+                                    <td> <input type='text' class="form-control" ng-model="portfolio.id" required ng-maxlength="20" ng-blur="checkId()"></td>
+                                </tr>
+                                <tr>
+                                    <td>Present Value</td>
+                                    <td> <input type='text' step=".01" min=0 class="form-control" ng-model="portfolio.presentValue" ng-maxlength="7" readonly></td>
+                                </tr>
+                                <tr>
+                                    <td>Buy Value</td>
+                                    <td> <input type='number' step=".01" min=0 class="form-control" ng-model="portfolio.buyValue" required ng-maxlength="7" ></td>
+                                </tr>
+                                <tr>
+                                    <td>Stop loss (%)</td>
+                                    <td> <input type='number' class="form-control" ng-model="portfolio.stopLoss" required ng-maxlength="7"  ></td>
+                                </tr>
+                                <tr>
+                                    <td>Target Value</td>
+                                    <td> <input type='number' class="form-control" ng-model="portfolio.targetValue" required ng-maxlength="7" ></td>
+                                </tr>
+                                <tr>
+                                    <td>CheckStatus (buy/sell/monitor)</td>
+                                    <td> <input type='text' class="form-control" ng-model="portfolio.status" required ng-maxlength="7" ></td>
+                                </tr>
+                                <tr>
+                                    <td><button class="btn btn-success" ng-click="addNew()" ng-disabled="newDevice.$invalid" >Add New</button></td>
+                                    <td> &nbsp;</td>
+                                </tr>
+                            </table>
+                            </form>
+
+                        </div>
+                    </div>
+                </div>
+
+                
+            </div>
+        </div>
+        
+
+        <br>
+        <footer class="container">
+         
+            <p>Footer information</p>
+
+        </footer>
+        <!--<div style="position: fixed; bottom:0px; width: 100%; height: 25px; background-color:lightgrey"> {{ status}}</div>-->
+    </div>
+
+    </div>
+
+
+</body>
+
+</html>
